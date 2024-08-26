@@ -6,6 +6,7 @@ import lombok.*;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -65,6 +66,11 @@ public class Movies extends AbstractEntity {
     public void addCategory(Category category){
         this.categories.add(category);
         category.getMovies().add(this);
+    }
+
+    public void addActor(Actor actor){
+        this.actors.add(actor);
+        actor.getMovies().add(this);
     }
     public Set<Actor> getAllActors(){return Collections.unmodifiableSet(actors);
     }

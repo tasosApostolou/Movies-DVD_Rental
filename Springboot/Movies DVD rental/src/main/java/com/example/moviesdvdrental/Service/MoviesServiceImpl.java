@@ -2,7 +2,9 @@ package com.example.moviesdvdrental.Service;
 
 import com.example.moviesdvdrental.DTOs.CategoryDTO.CategoryInsertDTO;
 import com.example.moviesdvdrental.DTOs.MoviesDTO.MoviesInsertDTO;
+import com.example.moviesdvdrental.DTOs.actorDTO.ActorInsertDTO;
 import com.example.moviesdvdrental.Exceptions.EntityNotFoundException;
+import com.example.moviesdvdrental.Repositories.ActorRepository;
 import com.example.moviesdvdrental.Repositories.CategoryRepository;
 import com.example.moviesdvdrental.Repositories.DirectorsRepository;
 import com.example.moviesdvdrental.Repositories.MoviesRepository;
@@ -28,10 +30,11 @@ public class MoviesServiceImpl implements IMoviesService{
     private final MoviesRepository moviesRepository;
     private final DirectorsRepository directorsRepository;
     private final CategoryRepository categoryRepository;
+    private final ActorRepository actorRepository;
     @Override
     @Transactional
     public Movies insert(MoviesInsertDTO dto) throws Exception {
-        Movies movie;
+        Movies movie = new Movies();
         Director director;
         try {
             director = directorsRepository.findByFirstnameAndLastname(dto.getDirector().getFirstname(),dto.getDirector().getLastname()
@@ -43,12 +46,7 @@ public class MoviesServiceImpl implements IMoviesService{
             movie.setDirector(director);
             movie = moviesRepository.save(movie);
             addCategoriesToMovie(movie,dto.getCategories());
-//            for (CategoryInsertDTO categoryInsertDTO : dto.getCategories()) {
-//                movie.addCategory(categoryRepository.findDistinctFirstByCategoryName(categoryInsertDTO.getCategoryName()).orElseGet(() -> {
-//                    Category newCategory = new Category(categoryInsertDTO.getCategoryName());
-//                    return categoryRepository.save(newCategory);
-//                }));
-//            }
+            addActorsToMovie(movie,dto.getActors());
             if (movie.getId() == null) {
                 throw new Exception("Insert error");
             }
@@ -88,16 +86,21 @@ public class MoviesServiceImpl implements IMoviesService{
         return movie;
     }
     private void addCategoriesToMovie(Movies movie, List<CategoryInsertDTO> categories) throws Exception{
-
-        categories.forEach(categoryInsertDTO -> movie.addCategory(categoryRepository.findDistinctFirstByCategoryName(categoryInsertDTO.getCategoryName()).orElseGet(()->{return categoryRepository.save(Mapper.mapToCategory(categoryInsertDTO));})));
-        // foreach category if category there isn't in database then insert the category in database else just building the relationship with movies:
-//        Category categoryToAdd;
-//        for (CategoryInsertDTO categoryInsertDTO : categories) {
-//            if (categoryRepository.findDistinctFirstByCategoryName(categoryInsertDTO.getCategoryName()).isEmpty()) {
-//                categoryRepository.save(Mapper.mapToCategory(categoryInsertDTO));
-//            }
-//            categoryToAdd = categoryRepository.findDistinctFirstByCategoryName(categoryInsertDTO.getCategoryName()).orElseThrow(() -> new Exception("category not found"));
-//            movie.addCategory(categoryToAdd);
-//        }
+        Category categoryToAdd;
+        for (CategoryInsertDTO categoryInsertDTO : categories) {
+            if (categoryRepository.findDistinctFirstByCategoryName(categoryInsertDTO.getCategoryName()).isEmpty()) {
+                categoryRepository.save(Mapper.mapToCategory(categoryInsertDTO));
+            }
+            categoryToAdd = categoryRepository.findDistinctFirstByCategoryName(categoryInsertDTO.getCategoryName()).orElseThrow(() -> new Exception("Problem in insert of a category"));
+            movie.addCategory(categoryToAdd);
+        }
+    }
+    private void addActorsToMovie(Movies movie, List<ActorInsertDTO> actors){
+        actors.forEach(actorDTO -> movie.addActor(
+                actorRepository.findByFirstnameAndLastname(actorDTO.getFirstname(),actorDTO.getLastname()) //find the given actor if exists to add it into movie_actors
+                        .orElseGet( () -> { // if actor doest exists
+                            return actorRepository.save(Mapper.mapToActor(actorDTO)); // create new actor and add it into movie_actors
+                        })
+        ));
     }
 }
