@@ -12,6 +12,7 @@ import com.example.moviesdvdrental.model.Director;
 import com.example.moviesdvdrental.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,14 +31,14 @@ public class CustomerServiceImpl implements ICustomerService {
     public Customer registerCustomer(CustomerRegisterDTO dto) throws EntityAlreadyExistsException {
         Customer customer;
         User user;
-//        String password = new BCryptPasswordEncoder().encode(dto.getPassword());
+        String passwordEncoded = new BCryptPasswordEncoder().encode(dto.getPassword());
 
         try {
 //            customer = new Customer(dto.getFirstname(), dto.getLastname());
 //            user = User.NEW_CUSTOMER(dto.getUsername(), dto.getPassword());
             customer = Mapper.extractCustomerFromRegisterCustomerDTO(dto);
             user = Mapper.extractUserFromRegisterCustomerDTO(dto);
-            user.setPassword(dto.getPassword());
+            user.setPassword(passwordEncoded);
             Optional<User> returnedUser = userRepository.findByUsername(dto.getUsername());
             if (returnedUser.isPresent()) throw new EntityAlreadyExistsException(Customer.class, dto.getUsername());
             customer.addUser(user);

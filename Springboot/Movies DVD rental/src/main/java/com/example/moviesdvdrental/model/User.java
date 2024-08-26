@@ -2,8 +2,13 @@ package com.example.moviesdvdrental.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -12,7 +17,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "User")
-public class User extends AbstractEntity{
+public class User extends AbstractEntity implements UserDetails {
     @Column(length = 30, unique = true, nullable = false)
     private String username;
 
@@ -53,11 +58,40 @@ public class User extends AbstractEntity{
         return user;
     }
 
-    public static User ADMIN(String username, String password){
+    public static User NEW_ADMIN(String username, String password){
         User user = new User();
         user.setRole(Role.ADMIN);
         user.setUsername(username);
         user.setPassword(password);
         return user;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+//        return UserDetails.super.isAccountNonExpired();
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+//        return UserDetails.super.isAccountNonLocked();
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+//        return UserDetails.super.isCredentialsNonExpired();
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+//        return UserDetails.super.isEnabled();
+        return true;
     }
 }

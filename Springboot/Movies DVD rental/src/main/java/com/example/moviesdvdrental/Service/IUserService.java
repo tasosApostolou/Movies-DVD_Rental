@@ -2,6 +2,7 @@ package com.example.moviesdvdrental.Service;
 
 import com.example.moviesdvdrental.DTOs.UserDTO.UserInsertDTO;
 import com.example.moviesdvdrental.DTOs.UserDTO.UserUpdateDTO;
+import com.example.moviesdvdrental.Exceptions.EntityAlreadyExistsException;
 import com.example.moviesdvdrental.Exceptions.EntityNotFoundException;
 import com.example.moviesdvdrental.model.User;
 
@@ -14,4 +15,6 @@ public interface IUserService {
     List<User> getUsersByUsername(String username) throws EntityNotFoundException;
     User getUserById(Long id) throws EntityNotFoundException;
     User getUserByUsername(String username) throws EntityNotFoundException;
+    User registerAdmin(String username, String password) throws EntityAlreadyExistsException;
+    User promoteToAdmin(Long userId) throws EntityNotFoundException;
 }

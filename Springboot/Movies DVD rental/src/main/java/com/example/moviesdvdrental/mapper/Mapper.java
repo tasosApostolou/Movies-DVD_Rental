@@ -7,6 +7,7 @@ import com.example.moviesdvdrental.DTOs.CustomerDTO.CustomerRegisterDTO;
 import com.example.moviesdvdrental.DTOs.CustomerDTO.CustomerUpdateDTO;
 import com.example.moviesdvdrental.DTOs.DirectorDTO.DirectorInsertDTO;
 import com.example.moviesdvdrental.DTOs.DirectorDTO.DirectorReadOnlyDTO;
+import com.example.moviesdvdrental.DTOs.LoginDTO.LoginResponseTokenDTO;
 import com.example.moviesdvdrental.DTOs.MoviesDTO.MoviesInsertDTO;
 import com.example.moviesdvdrental.DTOs.MoviesDTO.MoviesReadOnlyDTO;
 import com.example.moviesdvdrental.DTOs.RatingsDTO.RatingsReadOnlyDTO;
@@ -26,8 +27,9 @@ public class Mapper {
     public static Director mapToDirector(DirectorInsertDTO dto) {
         return new Director(dto.getFirstname(), dto.getLastname());
     }
+
     public static Movies mapToMovie(MoviesInsertDTO dto) {
-        return new Movies(dto.getTitle(), dto.getYear(),dto.getCountCopies(),new Director(dto.getDirector().getFirstname(),dto.getDirector().getLastname()));
+        return new Movies(dto.getTitle(), dto.getYear(), dto.getCountCopies(), new Director(dto.getDirector().getFirstname(), dto.getDirector().getLastname()));
     }
 
     public static Category mapToCategory(CategoryInsertDTO dto) {
@@ -47,6 +49,7 @@ public class Mapper {
         customer.setId(customerDTO.getId());
         return customer;
     }
+
     public static User mapToUser(UserInsertDTO dto) {
         return new User(null, dto.getUsername(), dto.getPassword(), Role.valueOf(dto.getRole()));
     }
@@ -65,22 +68,24 @@ public class Mapper {
         CategoryReadOnlyDTO categoryDTO = new CategoryReadOnlyDTO(category.getId(), category.getCategoryName());
         return categoryDTO;
     }
+
     public static MoviesReadOnlyDTO mapToReadOnlyDTO(Movies movie) {
         MoviesReadOnlyDTO movieDTO = new MoviesReadOnlyDTO(movie.getId(), movie.getTitle(), movie.getYear(), movie.getCountCopies(), mapToReadOnlyDTO(movie.getDirector()));
         return movieDTO;
     }
 
     public static RatingsReadOnlyDTO mapToReadOnlyDTO(Ratings rating) {
-        RatingsReadOnlyDTO ratingDTO = new RatingsReadOnlyDTO(mapToReadOnlyDTO(rating.getMovie()),mapToReadOnlyDTO(rating.getCustomer()),rating.getRating());
+        RatingsReadOnlyDTO ratingDTO = new RatingsReadOnlyDTO(mapToReadOnlyDTO(rating.getMovie()), mapToReadOnlyDTO(rating.getCustomer()), rating.getRating());
         return ratingDTO;
     }
+
     public static RentalsReadOnlyDTO mapToReadOnlyDTO(Rentals rental) {
-        RentalsReadOnlyDTO rentalDTO = new RentalsReadOnlyDTO(mapToReadOnlyDTO(rental.getMovie()),mapToReadOnlyDTO(rental.getCustomer()),rental.getPrice());
+        RentalsReadOnlyDTO rentalDTO = new RentalsReadOnlyDTO(mapToReadOnlyDTO(rental.getMovie()), mapToReadOnlyDTO(rental.getCustomer()), rental.getPrice());
         return rentalDTO;
     }
 
     public static CustomerReadOnlyDTO mapToReadOnlyDTO(Customer customer) {
-        CustomerReadOnlyDTO readOnlyDTO = new CustomerReadOnlyDTO(customer.getId(),customer.getFirstname(), customer.getLastname(),customer.getUser().getId());
+        CustomerReadOnlyDTO readOnlyDTO = new CustomerReadOnlyDTO(customer.getId(), customer.getFirstname(), customer.getLastname(), customer.getUser().getId());
         return readOnlyDTO;
     }
 
@@ -90,5 +95,13 @@ public class Mapper {
 
     public static UserReadOnlyDTO mapToReadOnlyDTO(User user) {
         return new UserReadOnlyDTO(user.getId(), user.getUsername(), String.valueOf(user.getRole()));
+    }
+
+    public static LoginResponseTokenDTO mapToLoginResponseDTO(User user) {
+        if (user.getRole() == Role.CUSTOMER) {
+            return new LoginResponseTokenDTO(user.getId(), user.getUsername(), Role.CUSTOMER, user.getCustomer().getId());
+        } else {
+            return new LoginResponseTokenDTO(user.getId(), user.getUsername(), Role.ADMIN, user.getId());
+        }
     }
 }

@@ -6,9 +6,11 @@ import com.example.moviesdvdrental.Exceptions.EntityAlreadyExistsException;
 import com.example.moviesdvdrental.Exceptions.EntityNotFoundException;
 import com.example.moviesdvdrental.Repositories.UserRepository;
 import com.example.moviesdvdrental.mapper.Mapper;
+import com.example.moviesdvdrental.model.Role;
 import com.example.moviesdvdrental.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +33,7 @@ public class UserServiceImpl implements IUserService {
             user = Mapper.mapToUser(dto);
             Optional<User> userToCreate = userRepository.findByUsername(user.getUsername());
             if (userToCreate.isPresent()) throw new EntityAlreadyExistsException(User.class,dto.getUsername());
+            user.setPassword(new BCryptPasswordEncoder().encode(dto.getPassword()));
             user = userRepository.save(user);
             if(user.getId()==null){
                 throw new Exception("Insert error");
@@ -51,7 +54,7 @@ public class UserServiceImpl implements IUserService {
         try {
             user = userRepository.findById(dto.getId()).orElseThrow(() -> new EntityNotFoundException(User.class,dto.getId()));
             userToUpdate = Mapper.mapToUser(dto);// This user without notifications
-//            userToUpdate.setPassword(new BCryptPasswordEncoder().encode(dto.getPassword()));
+            userToUpdate.setPassword(new BCryptPasswordEncoder().encode(dto.getPassword()));
             user = userRepository.save(userToUpdate);
             log.info("User with id: "+ userToUpdate.getId()+ " was updated");
         }catch (EntityNotFoundException e){
@@ -116,6 +119,28 @@ public class UserServiceImpl implements IUserService {
 
         Optional<User> user = userRepository.findByUsername(username);
         return user.orElseThrow(() -> new EntityNotFoundException(User.class,0L));
+    }
+    @Override
+    @Transactional
+    public User registerAdmin(String username, String password) throws EntityAlreadyExistsException {
+        String passwordEncoded = new BCryptPasswordEncoder().encode(password);
+        Optional<User> returnedUser = userRepository.findByUsername(username);
+
+        if (returnedUser.isPresent()) {
+            throw new EntityAlreadyExistsException(User.class, username);
+        }
+
+        User admin = User.NEW_ADMIN(username, passwordEncoded);
+        userRepository.save(admin);
+        return admin;
+    }
+    @Override
+    @Transactional
+    public User promoteToAdmin(Long userId) throws EntityNotFoundException {
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException(User.class, userId));
+        user.setRole(Role.ADMIN);
+        userRepository.save(user);
+        return user;
     }
 
 }
