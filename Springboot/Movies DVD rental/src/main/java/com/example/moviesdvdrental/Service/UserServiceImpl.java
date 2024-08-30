@@ -120,20 +120,7 @@ public class UserServiceImpl implements IUserService {
         Optional<User> user = userRepository.findByUsername(username);
         return user.orElseThrow(() -> new EntityNotFoundException(User.class,0L));
     }
-    @Override
-    @Transactional
-    public User registerAdmin(String username, String password) throws EntityAlreadyExistsException {
-        String passwordEncoded = new BCryptPasswordEncoder().encode(password);
-        Optional<User> returnedUser = userRepository.findByUsername(username);
 
-        if (returnedUser.isPresent()) {
-            throw new EntityAlreadyExistsException(User.class, username);
-        }
-
-        User admin = User.NEW_ADMIN(username, passwordEncoded);
-        userRepository.save(admin);
-        return admin;
-    }
     @Override
     @Transactional
     public User promoteToAdmin(Long userId) throws EntityNotFoundException {

@@ -3,8 +3,9 @@ import { CustomerRegistrationComponent } from './components/customer-registratio
 import { UserLoginComponent } from './components/user-login/user-login.component';
 import { CustomerWelcomeComponent } from './components/customer-components/customer-welcome/customer-welcome.component';
 import { authCustomerGuard } from './shared/guards/auth-customer.guard';
-import { AdminRegistrationComponent } from './components/admin-registration/admin-registration.component';
+
 import { WelcomeComponent } from './components/welcome/welcome.component';
+import { EmployeeRegistrationComponent } from './components/employee-registration/employee-registration.component';
 
 
 
@@ -12,7 +13,7 @@ export const routes: Routes = [
 
   { path: '', component: WelcomeComponent},
   {path:'customer-registration', component: CustomerRegistrationComponent},
-  {path:'store-registration', component: AdminRegistrationComponent},
+  {path:'store-registration', component: EmployeeRegistrationComponent},
   { path: 'login', component: UserLoginComponent },
   {path:'customer-welcome', component: CustomerWelcomeComponent,canActivate:[authCustomerGuard]},
 ];

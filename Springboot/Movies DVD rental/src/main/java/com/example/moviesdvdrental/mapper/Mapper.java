@@ -7,6 +7,8 @@ import com.example.moviesdvdrental.DTOs.CustomerDTO.CustomerRegisterDTO;
 import com.example.moviesdvdrental.DTOs.CustomerDTO.CustomerUpdateDTO;
 import com.example.moviesdvdrental.DTOs.DirectorDTO.DirectorInsertDTO;
 import com.example.moviesdvdrental.DTOs.DirectorDTO.DirectorReadOnlyDTO;
+import com.example.moviesdvdrental.DTOs.EmployeeDTO.EmployeeReadOnlyDTO;
+import com.example.moviesdvdrental.DTOs.EmployeeDTO.EmployeeRegisterDTO;
 import com.example.moviesdvdrental.DTOs.LoginDTO.LoginResponseTokenDTO;
 import com.example.moviesdvdrental.DTOs.MoviesDTO.MoviesInsertDTO;
 import com.example.moviesdvdrental.DTOs.MoviesDTO.MoviesReadOnlyDTO;
@@ -40,8 +42,14 @@ public class Mapper {
         return new Customer(dto.getFirstname(), dto.getLastname());
     }
 
-    public static User extractUserFromRegisterCustomerDTO(CustomerRegisterDTO dto) {
+    public static User extractUserFromRegisterDTO(CustomerRegisterDTO dto) {
         return User.NEW_CUSTOMER(dto.getUsername(), dto.getPassword());
+    }
+    public static User extractUserFromRegisterDTO(EmployeeRegisterDTO dto) {
+        return User.NEW_CUSTOMER(dto.getUsername(), dto.getPassword());
+    }
+    public static Employee extractEmployeeFromRegisterEmployeeDTO(EmployeeRegisterDTO dto) {
+        return new Employee(dto.getFirstname(),dto.getLastname(),dto.getSsn());
     }
 
     public static Customer mapToCustomer(CustomerUpdateDTO customerDTO) {
@@ -88,6 +96,10 @@ public class Mapper {
         CustomerReadOnlyDTO readOnlyDTO = new CustomerReadOnlyDTO(customer.getId(), customer.getFirstname(), customer.getLastname(), customer.getUser().getId());
         return readOnlyDTO;
     }
+    public static EmployeeReadOnlyDTO mapToReadOnlyDTO(Employee employee) {
+        EmployeeReadOnlyDTO readOnlyDTO = new EmployeeReadOnlyDTO(employee.getId(),employee.getFirstname(),employee.getLastname(),employee.getSsn(),employee.getUser().getId());
+        return readOnlyDTO;
+    }
 
     public static User mapToUser(UserUpdateDTO dto) {
         return new User(dto.getId(), dto.getUsername(), dto.getPassword(), dto.getRole());
@@ -101,7 +113,7 @@ public class Mapper {
         if (user.getRole() == Role.CUSTOMER) {
             return new LoginResponseTokenDTO(user.getId(), user.getUsername(), Role.CUSTOMER, user.getCustomer().getId());
         } else {
-            return new LoginResponseTokenDTO(user.getId(), user.getUsername(), Role.ADMIN, user.getId());
+            return new LoginResponseTokenDTO(user.getId(), user.getUsername(), Role.EMPLOYEE, user.getEmployee().getId());
         }
     }
 }

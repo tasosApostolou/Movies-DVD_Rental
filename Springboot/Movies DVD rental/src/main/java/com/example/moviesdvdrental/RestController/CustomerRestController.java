@@ -35,7 +35,7 @@ public class CustomerRestController {
     private final CustomerRegisterValidator registerCustomerValidator;
     private final CustomerUpdateValidator updateValidator;
 
-    @Operation(summary = "Add a customer")
+    @Operation(summary = "Register a customer")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Customer created",
                     content = {@Content(mediaType = "application/json",
@@ -111,7 +111,7 @@ public class CustomerRestController {
             @ApiResponse(responseCode = "404", description = "Customer not found",
                     content = @Content)})
     @DeleteMapping("/{id}")
-    public ResponseEntity<CustomerReadOnlyDTO> deletePerson(@PathVariable("id") Long id){
+    public ResponseEntity<CustomerReadOnlyDTO> deleteCustomer(@PathVariable("id") Long id){
         Customer customer;
         try {
             customer = customerService.deleteCustomer(id);

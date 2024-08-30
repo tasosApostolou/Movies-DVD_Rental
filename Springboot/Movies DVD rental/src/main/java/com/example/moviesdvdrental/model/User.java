@@ -32,8 +32,8 @@ public class User extends AbstractEntity implements UserDetails {
 
     @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
     private Customer customer;
-//    @OneToOne(mappedBy = "user")
-//    private Admin admin;
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
+    private Employee employee;
 
     public User(Long id,String username, String password, Role role) {
         this.setId(id);
@@ -58,9 +58,11 @@ public class User extends AbstractEntity implements UserDetails {
         return user;
     }
 
-    public static User NEW_ADMIN(String username, String password){
+    public static User NEW_EMPLOYEE(String username, String password) {
         User user = new User();
-        user.setRole(Role.ADMIN);
+//        user.setIsActive(true);
+        user.setRole(Role.EMPLOYEE);
+        user.setStatus(Status.APPROVED);
         user.setUsername(username);
         user.setPassword(password);
         return user;

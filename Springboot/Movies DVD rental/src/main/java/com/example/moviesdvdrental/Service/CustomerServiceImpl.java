@@ -37,7 +37,7 @@ public class CustomerServiceImpl implements ICustomerService {
 //            customer = new Customer(dto.getFirstname(), dto.getLastname());
 //            user = User.NEW_CUSTOMER(dto.getUsername(), dto.getPassword());
             customer = Mapper.extractCustomerFromRegisterCustomerDTO(dto);
-            user = Mapper.extractUserFromRegisterCustomerDTO(dto);
+            user = Mapper.extractUserFromRegisterDTO(dto);
             user.setPassword(passwordEncoded);
             Optional<User> returnedUser = userRepository.findByUsername(dto.getUsername());
             if (returnedUser.isPresent()) throw new EntityAlreadyExistsException(Customer.class, dto.getUsername());
@@ -45,7 +45,7 @@ public class CustomerServiceImpl implements ICustomerService {
             customerRepository.save(customer);
             log.info("Customer-member added");
         } catch (EntityAlreadyExistsException e) {
-            log.error("Problem in create user person" + e.getMessage());
+            log.error("Problem in create user customer" + e.getMessage());
             throw e;
         }
         return customer;

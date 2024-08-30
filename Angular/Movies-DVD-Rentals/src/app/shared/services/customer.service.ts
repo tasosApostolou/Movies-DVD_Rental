@@ -29,11 +29,7 @@ export class CustomerService {
         customer.id}`,customer)
     }
     getCustomerById(personID:number){
-      return this.http.get<Customer>(`${API_URL}/${personID}`)
-    }
-  
-    getPersonByUserId(userID:number){
-      return this.http.get<Customer>(`${API_URL}/user/${userID}`,{
+      return this.http.get<Customer>(`${API_URL}/${personID}`,{
         headers: {
           Accept:'application/json'
         },
