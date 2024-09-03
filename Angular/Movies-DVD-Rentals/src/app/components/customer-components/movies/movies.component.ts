@@ -17,11 +17,9 @@ import { UserService } from 'src/app/shared/services/user.service';
 export class MoviesComponent implements OnInit {
   userService = inject(UserService)
   movieService = inject(MovieService)
-  cService = inject(CustomerService)
   router = inject(Router)
   user = this.userService.user;
   movies:Movie[] = []
-  cmer:Customer
   mode: 'director' | 'actor';
   ngOnInit(): void {
   this.loadMovies()
@@ -31,5 +29,4 @@ export class MoviesComponent implements OnInit {
     this.movies = data
   })
   }
-
 }
