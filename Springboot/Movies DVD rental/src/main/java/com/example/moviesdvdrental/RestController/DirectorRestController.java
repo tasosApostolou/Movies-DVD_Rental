@@ -102,4 +102,26 @@ public class DirectorRestController {
             return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
+
+    @Operation(summary = "Get all directors ")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Directors Found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = DirectorReadOnlyDTO.class))}),
+            @ApiResponse(responseCode = "400", description = "Invalid lastname supplied",
+                    content = @Content)})
+    @GetMapping("/get")
+    public ResponseEntity<List<DirectorReadOnlyDTO>> getAllDirectors() {
+        List<Director> directors;
+        List<DirectorReadOnlyDTO> readOnlyDTOs = new ArrayList<>(); //the returned list
+
+        try {
+            directors = directorService.getAllDirectors();
+            directors.forEach(director -> readOnlyDTOs.add(Mapper.mapToReadOnlyDTO(director)));
+            return new ResponseEntity<>(readOnlyDTOs, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
+//            throw e;
+        }
+    }
 }

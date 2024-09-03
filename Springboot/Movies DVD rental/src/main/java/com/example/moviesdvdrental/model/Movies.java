@@ -77,6 +77,7 @@ public class Movies extends AbstractEntity {
     public Set<Rentals> getAllRentals(){return Collections.unmodifiableSet(rentals);}
 
     public Set<Ratings> getAllRatings(){return Collections.unmodifiableSet(ratings);}
+    public  List<Category> getAllCategories(){return Collections.unmodifiableSet(categories).stream().toList();}
 
     @Override
     public String toString() {

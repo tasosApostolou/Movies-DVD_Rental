@@ -1,17 +1,14 @@
 package com.example.moviesdvdrental.Service;
 
 import com.example.moviesdvdrental.DTOs.DirectorDTO.DirectorInsertDTO;
-import com.example.moviesdvdrental.DTOs.actorDTO.ActorInsertDTO;
 import com.example.moviesdvdrental.Exceptions.EntityNotFoundException;
 import com.example.moviesdvdrental.Repositories.DirectorsRepository;
 import com.example.moviesdvdrental.mapper.Mapper;
-import com.example.moviesdvdrental.model.Actor;
 import com.example.moviesdvdrental.model.Director;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,5 +59,19 @@ public class DirectorServiceImpl implements IDirectorService {
             throw e;
         }
         return director;
+    }
+
+    @Override
+    public List<Director> getAllDirectors() throws Exception {
+        List<Director> directors = new ArrayList<>();
+        try {
+            directors = directorsRepository.findAll();
+            if (directors.isEmpty()) throw new EntityNotFoundException(Director.class,0L);
+            log.info("Directors "+" were found");
+        }catch (EntityNotFoundException e){
+            log.error(e.getMessage());
+            throw e;
+        }
+        return directors;
     }
 }

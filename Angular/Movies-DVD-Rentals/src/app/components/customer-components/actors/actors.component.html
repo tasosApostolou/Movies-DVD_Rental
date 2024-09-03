@@ -1,0 +1,27 @@
+@if(!actors.length){
+    <Span>No actors.</Span>
+  }@else {
+    <span>Actor List</span>
+  <table class="table table-bordered table-striped text-wrap">
+      <thead>
+        <tr class="align-middle text-center small">
+          <th role="button" >
+            ID
+          </th>
+          <th role="button" >
+            fullname
+          </th>
+          <th role="button" >movies</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (actor of actors; track actor) {
+          <tr class="align-middle">
+            <td>{{ actor.id}}</td>
+            <td>{{ actor.firstname}} {{ actor.lastname}}</td>
+            <td><a (click)="seeMovies(actor.id)" role="button" class="text-primary">movies</a></td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }

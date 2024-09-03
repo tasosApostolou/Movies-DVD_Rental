@@ -12,4 +12,6 @@ public interface IMoviesService {
     Movies insert(MoviesInsertDTO dto) throws Exception;
     List<Movies> getMoviesByTitle(String title) throws EntityNotFoundException;
     Movies getMovieById(Long id) throws EntityNotFoundException;
+    List<Movies> getAllMovies() throws EntityNotFoundException;
+
 }

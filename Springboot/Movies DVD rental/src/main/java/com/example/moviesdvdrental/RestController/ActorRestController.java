@@ -106,4 +106,25 @@ public class ActorRestController {
                 return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
             }
         }
+
+    @Operation(summary = "Get all actors")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Actors Found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ActorReadOnlyDTO.class))}),
+            @ApiResponse(responseCode = "400", description = "no actors",
+                    content = @Content)})
+    @GetMapping("/get")
+    public ResponseEntity<List<ActorReadOnlyDTO>> getAllActors() {
+        List<Actor> actors;
+        List<ActorReadOnlyDTO> readOnlyDTOs = new ArrayList<>();
+
+        try {
+            actors = actorService.getAllActors();
+            actors.forEach(actor -> readOnlyDTOs.add(Mapper.mapToReadOnlyDTO(actor)));
+            return new ResponseEntity<>(readOnlyDTOs, HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
+        }
+    }
 }

@@ -21,6 +21,9 @@ import com.example.moviesdvdrental.DTOs.actorDTO.ActorInsertDTO;
 import com.example.moviesdvdrental.DTOs.actorDTO.ActorReadOnlyDTO;
 import com.example.moviesdvdrental.model.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class Mapper {
     public static Actor mapToActor(ActorInsertDTO dto) {
         return new Actor(dto.getFirstname(), dto.getLastname());
@@ -78,7 +81,10 @@ public class Mapper {
     }
 
     public static MoviesReadOnlyDTO mapToReadOnlyDTO(Movies movie) {
-        MoviesReadOnlyDTO movieDTO = new MoviesReadOnlyDTO(movie.getId(), movie.getTitle(), movie.getYear(), movie.getCountCopies(), mapToReadOnlyDTO(movie.getDirector()));
+        MoviesReadOnlyDTO movieDTO = new MoviesReadOnlyDTO(movie.getId(), movie.getTitle(), movie.getYear(), movie.getCountCopies(), mapToReadOnlyDTO(movie.getDirector()) );
+//        movieDTO.setActors(movie.getAllActors().stream().map(Mapper::mapToReadOnlyDTO).collect(Collectors.toList()));
+        movie.getAllActors().forEach(actor -> movieDTO.getActors().add(mapToReadOnlyDTO(actor)));
+        movie.getAllCategories().forEach(category -> movieDTO.getCategories().add(mapToReadOnlyDTO(category)));
         return movieDTO;
     }
 

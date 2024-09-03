@@ -15,7 +15,6 @@
 
 .navbar-links .brand-title {
   font-size: 1.5rem;
-  /* margin-right: 20px; */
 }
 
 .navbar-links ul {
@@ -36,8 +35,6 @@
 }
 
 .navbar-links a:hover {
-  /* background-color: #763a3a; */
-  /* background-color: #8e3939; */
   color: rgb(188, 239, 239);
 
 }

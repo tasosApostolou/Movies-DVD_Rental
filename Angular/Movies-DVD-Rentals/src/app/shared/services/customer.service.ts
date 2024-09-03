@@ -28,8 +28,8 @@ export class CustomerService {
       return this.http.put<{any:Customer}>(`${API_URL}/update/${
         customer.id}`,customer)
     }
-    getCustomerById(personID:number){
-      return this.http.get<Customer>(`${API_URL}/${personID}`,{
+    getCustomerById(customerId:number){
+      return this.http.get<Customer>(`${API_URL}/${customerId}`,{
         headers: {
           Accept:'application/json'
         },

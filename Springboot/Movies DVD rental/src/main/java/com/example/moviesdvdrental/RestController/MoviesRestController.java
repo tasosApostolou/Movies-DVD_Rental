@@ -104,4 +104,24 @@ public class MoviesRestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+    @Operation(summary = "Get All Movies")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Movies Found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = MoviesReadOnlyDTO.class))}),
+            @ApiResponse(responseCode = "400", description = "Invalid title supplied",
+                    content = @Content)})
+    @GetMapping("/get")
+    public ResponseEntity<List<MoviesReadOnlyDTO>> getMovies (){
+        List<Movies> movies;
+        List<MoviesReadOnlyDTO> readOnlyDTOs = new ArrayList<>();
+        try {
+            movies = moviesService.getAllMovies();
+            movies.forEach(movie -> readOnlyDTOs.add(Mapper.mapToReadOnlyDTO(movie)));
+            return new ResponseEntity<>(readOnlyDTOs, HttpStatus.OK);
+
+        }catch (EntityNotFoundException e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

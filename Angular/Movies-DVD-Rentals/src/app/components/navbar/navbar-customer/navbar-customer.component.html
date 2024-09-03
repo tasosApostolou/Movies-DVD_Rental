@@ -1,1 +1,40 @@
-<p>navbar-customer works!</p>
+<nav class="navbar navbar-expand-lg bg-primary">
+    <div class="container-fluid ">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerControl" aria-controls="navbarTogglerControl" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerControl">
+        <a class="navbar-brand" routerLink="customer-welcome">Movies-DVD-Rentals</a>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-light">
+          <li class="nav-item">
+            <a class="nav-link "  routerLink="customer-directors">Directors</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " routerLink="actors">Actors</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="movies">Movies</a>
+          </li>
+        </ul>
+        <form class="d-flex" role="search">
+          <input class="form-control  me-2" type="search" placeholder="Search movie by title" aria-label="Search">
+          <button class="btn btn-info" type="submit">Search</button>
+        </form>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">My rentals activities</a>
+          </li>
+        </ul>  
+        <button mat-icon-button [matMenuTriggerFor]="edit"> <mat-icon>settings</mat-icon></button>
+    <mat-menu #edit="matMenu"><p routerLink="update-store" role="button" class="hover-settings">Ενημέρωση στοιχείων προφίλ</p> <p routerLink="manage-account" role="button" class="hover-settings" >Διαχειρηση λογαριασμού</p></mat-menu>
+    <a>
+      <span class="me-3 d-flex gap-2 " role="button">
+        logout
+         <mat-icon
+           role="button"
+           (click)="logout()"
+          >
+           logout
+         </mat-icon>
+    </span></a>
+        

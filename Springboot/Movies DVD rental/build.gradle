@@ -11,6 +11,8 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
+//    sourceCompatibility = '17'
+
 }
 bootJar {
     // Exclude Lombok from the final jar

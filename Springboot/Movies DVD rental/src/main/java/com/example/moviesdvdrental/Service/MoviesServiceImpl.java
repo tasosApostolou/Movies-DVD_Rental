@@ -85,6 +85,7 @@ public class MoviesServiceImpl implements IMoviesService{
         }
         return movie;
     }
+
     private void addCategoriesToMovie(Movies movie, List<CategoryInsertDTO> categories) throws Exception{
         Category categoryToAdd;
         for (CategoryInsertDTO categoryInsertDTO : categories) {
@@ -103,4 +104,16 @@ public class MoviesServiceImpl implements IMoviesService{
                         })
         ));
     }
+    @Override
+    public List<Movies> getAllMovies() throws EntityNotFoundException {
+        List<Movies> movies = new ArrayList<>();
+        try {
+            movies = moviesRepository.findAll();
+            if (movies.isEmpty()) throw new EntityNotFoundException(Movies.class,0L);
+            log.info("Movies were found");
+        }catch (EntityNotFoundException e){
+            log.error(e.getMessage());
+            throw e;
+        }
+        return movies;    }
 }

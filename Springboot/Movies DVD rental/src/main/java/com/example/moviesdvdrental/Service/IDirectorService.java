@@ -12,4 +12,5 @@ public interface IDirectorService {
     Director insert(DirectorInsertDTO dto) throws Exception;
     List<Director> getDirectorsByLastname(String lastname) throws EntityNotFoundException;
     Director getDirectorById(Long id) throws EntityNotFoundException;
+    List<Director> getAllDirectors() throws Exception;
 }

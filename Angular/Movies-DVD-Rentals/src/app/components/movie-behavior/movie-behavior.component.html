@@ -1,0 +1,31 @@
+@if(!movies.length){
+    <Span>No movies Added.</Span>
+    <p>add new book from navbar</p>
+  }@else {
+    <span>Your movie List</span>
+  <table class="table table-bordered table-striped text-wrap">
+      <thead>
+        <tr class="align-middle text-center small">
+          <th role="button" >
+            ID
+          </th>
+          <th role="button" >
+            title
+          </th>
+          <th role="button" >director</th>
+          <th>Year</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (movie of movies; track movie) {
+          <tr class="align-middle">
+            <td>{{ movie.id}}</td>
+            <td>{{ movie.title }}</td>
+            <td>{{ movie.director.firstname}} {{ movie.director.lastname}}</td>
+            <td>{{ movie.year }}</td>
+  
+          </tr>
+        }
+      </tbody>
+    </table>
+  }

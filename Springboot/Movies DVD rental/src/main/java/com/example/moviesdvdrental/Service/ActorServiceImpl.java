@@ -61,4 +61,18 @@ public class ActorServiceImpl implements IActorService {
             }
             return actor;
         }
+
+    @Override
+    public List<Actor> getAllActors() throws EntityNotFoundException {
+        List<Actor> actors = new ArrayList<>();
+        try {
+            actors = actorRepository.findAll();
+            if (actors.isEmpty()) throw new EntityNotFoundException(Actor.class,0L);
+            log.info("Actors" +" were found");
+        }catch (EntityNotFoundException e){
+            log.error(e.getMessage());
+            throw e;
+        }
+        return actors;
     }
+}

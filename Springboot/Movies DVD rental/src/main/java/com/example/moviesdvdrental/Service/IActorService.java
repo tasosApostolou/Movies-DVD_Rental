@@ -10,4 +10,6 @@ public interface IActorService {
     Actor insert(ActorInsertDTO dto) throws Exception;
     List<Actor> getActorsByLastname(String lastname) throws EntityNotFoundException;
     Actor getActorById(Long id) throws EntityNotFoundException;
+    List<Actor> getAllActors() throws EntityNotFoundException;
+
 }
