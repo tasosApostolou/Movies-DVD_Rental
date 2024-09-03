@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import{ MatIconModule } from'@angular/material/icon'
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -10,6 +10,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 import { MatButtonToggle, MatButtonToggleChange, MatButtonToggleGroup, MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatOption, MatSelect } from '@angular/material/select';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-navbar-home',
@@ -19,5 +20,8 @@ import { MatOption, MatSelect } from '@angular/material/select';
   styleUrl: './navbar-home.component.css'
 })
 export class NavbarHomeComponent {
-
+// userservice = inject(UserService)
+// logout(){
+//   this.userservice.logoutUser()
+// }
 }

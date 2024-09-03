@@ -22,7 +22,7 @@ export class CustomerService {
     constructor() { }
   
     registerCustomer(customer:CustomerRegister){
-      return this.http.post<{data:JSON}>(`${API_URL}/register`, customer);
+      return this.http.post<{data:JSON}>(`http://localhost:8080/api/register/customer`, customer);
     }
     updateCustomer(customer:Customer){
       return this.http.put<{any:Customer}>(`${API_URL}/update/${

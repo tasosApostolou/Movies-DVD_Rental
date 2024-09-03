@@ -35,6 +35,7 @@ public class WebSecurityConfiguration {
     private final JwtRequestFilter requestFilter;
     private final AuthenticationProvider authenticationProvider;
 
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.cors((cors) -> cors
@@ -87,6 +88,5 @@ public CorsConfigurationSource corsConfigurationSource() {
 //    public PasswordEncoder passwordEncoder() {
 //        return new BCryptPasswordEncoder();
 //    }
-
 
 }

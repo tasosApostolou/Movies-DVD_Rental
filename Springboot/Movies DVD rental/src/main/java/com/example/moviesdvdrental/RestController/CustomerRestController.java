@@ -34,37 +34,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomerRestController {
     private final ICustomerService customerService;
-    private final CustomerRegisterValidator registerCustomerValidator;
     private final CustomerUpdateValidator updateValidator;
-
-    @Operation(summary = "Register a customer")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Customer created",
-                    content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = CustomerReadOnlyDTO.class))}),
-            @ApiResponse(responseCode = "400", description = "Invalid input was supplied",
-                    content = @Content),
-            @ApiResponse(responseCode = "503", description = "Service Unavailable",
-                    content = @Content)})
-    @PostMapping("/register")
-    public ResponseEntity<CustomerReadOnlyDTO> CustomerRegister(@Valid @RequestBody @Schema(implementation = CustomerRegisterDTO.class) CustomerRegisterDTO dto, BindingResult bindingResult) throws EntityAlreadyExistsException {
-        registerCustomerValidator.validate(dto,bindingResult);
-        if (bindingResult.hasErrors()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        Customer createdCustomer;
-        try {
-            createdCustomer = customerService.registerCustomer(dto);
-            CustomerReadOnlyDTO customerReadonlyDTO = Mapper.mapToReadOnlyDTO(createdCustomer);
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                    .path("/{id}")
-                    .buildAndExpand(customerReadonlyDTO.getId())
-                    .toUri();
-            return ResponseEntity.created(location).body(customerReadonlyDTO);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
-        }
-    }
 
     @Operation(summary = "Get customers by their lastname starting with initials")
     @ApiResponses(value = {

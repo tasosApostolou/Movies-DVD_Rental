@@ -32,35 +32,5 @@ import java.net.URI;
 @RequiredArgsConstructor
 public class EmployeeRestController {
     private final IEmployeeService employeeService;
-    private final EmployeeRegisterValidator registerEmployeeValidator;
 
-
-    @Operation(summary = "Register an employee")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Employee registered successfully",
-                    content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = EmployeeReadOnlyDTO.class))}),
-            @ApiResponse(responseCode = "400", description = "Invalid input was supplied",
-                    content = @Content),
-            @ApiResponse(responseCode = "503", description = "Service Unavailable",
-                    content = @Content)})
-    @PostMapping("/register")
-    public ResponseEntity<EmployeeReadOnlyDTO> EmployeeRegister(@Valid @RequestBody @Schema(implementation = EmployeeRegisterDTO.class) EmployeeRegisterDTO dto, BindingResult bindingResult) throws EntityAlreadyExistsException {
-        registerEmployeeValidator.validate(dto,bindingResult);
-        if (bindingResult.hasErrors()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        Employee createdEmployee;
-        try {
-            createdEmployee = employeeService.registerEmployee(dto);
-            EmployeeReadOnlyDTO employeeReadOnlyDTO = Mapper.mapToReadOnlyDTO(createdEmployee);
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                    .path("/{id}")
-                    .buildAndExpand(employeeReadOnlyDTO.getId())
-                    .toUri();
-            return ResponseEntity.created(location).body(employeeReadOnlyDTO);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
-        }
-    }
 }
