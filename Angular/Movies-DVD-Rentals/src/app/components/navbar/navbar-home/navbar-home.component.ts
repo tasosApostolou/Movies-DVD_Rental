@@ -20,8 +20,8 @@ import { UserService } from 'src/app/shared/services/user.service';
   styleUrl: './navbar-home.component.css'
 })
 export class NavbarHomeComponent {
-// userservice = inject(UserService)
-// logout(){
-//   this.userservice.logoutUser()
-// }
+userservice = inject(UserService)
+logout(){
+  this.userservice.logoutUser()
+}
 }

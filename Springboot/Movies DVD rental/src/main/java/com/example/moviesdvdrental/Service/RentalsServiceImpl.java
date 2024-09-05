@@ -35,20 +35,10 @@ public class RentalsServiceImpl implements IRentalsService{
         try{
             movie = moviesRepository.findById(dto.getMovieId()).orElseThrow(() -> new EntityNotFoundException(Movies.class,dto.getMovieId()));
             customer = customerRepository.findById(dto.getCustomerId()).orElseThrow(() -> new EntityNotFoundException(Customer.class,dto.getCustomerId()));
-            System.out.println(movie.getId()+"MOVIEID dsfwefddefesrgfsfgdsdgfdsgfdsgfdsfgdsfgsfgsfdgfsdgfsd");
-            System.out.println(customer.getId()+"CUSTOMER ID dsfwefddefesrgfsfgdsdgfdsgfdsgfdsfgdsfgsfgsfdgfsdgfsd");
-            System.out.println(dto.getPrice()+"PRICE dsfwefddefesrgfsfgdsdgfdsgfdsgfdsfgdsfgsfgsfdgfsdgfsd");
             rental.addMovie(movie);
             rental.addCustomer(customer);
             rental.setPrice(dto.getPrice());
-            System.out.println(rental.getCustomer().getId()+"RENTAL CUSTOMER ID dsfwefddefesrgfsfgdsdgfdsgfdsgfdsfgdsfgsfgsfdgfsdgfsd");
-            System.out.println(rental.getMovie().getId()+"RENTAL MOVIE ID dsfwefddefesrgfsfgdsdgfdsgfdsgfdsfgdsfgsfgsfdgfsdgfsd");
-            System.out.println(rental.getPrice()+"RENTAL PRICE dsfwefddefesrgfsfgdsdgfdsgfdsgfdsfgdsfgsfgsfdgfsdgfsd");
-            System.out.println(rental.toString());
             rental = rentalsRepository.save(rental);
-            System.out.println(rental.getCustomer().getId()+"AFTER RENTAL CUSTOMER ID dsfwefddefesrgfsfgdsdgfdsgfdsgfdsfgdsfgsfgsfdgfsdgfsd");
-            System.out.println(rental.getMovie().getId()+"AFTERE RENTAL MOVIE ID dsfwefddefesrgfsfgdsdgfdsgfdsgfdsfgdsfgsfgsfdgfsdgfsd");
-            System.out.println(rental.getPrice()+"AFTER RENTAL PRICE dsfwefddefesrgfsfgdsdgfdsgfdsgfdsfgdsfgsfgsfdgfsdgfsd");
             log.info("New rental for movie with id"+ dto.getMovieId());
             System.out.println(rental.toString());
         }catch (EntityNotFoundException e){
