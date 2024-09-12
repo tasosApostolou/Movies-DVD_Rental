@@ -34,6 +34,7 @@ public class Mapper {
     }
 
     public static Movies mapToMovie(MoviesInsertDTO dto) {
+        System.out.println(dto.getCountCopies()+"dsfadfadfdsaafdsafdsafsdasgf");
         return new Movies(dto.getTitle(), dto.getYear(), dto.getCountCopies(), new Director(dto.getDirector().getFirstname(), dto.getDirector().getLastname()));
     }
 
@@ -94,7 +95,7 @@ public class Mapper {
     }
 
     public static RentalsReadOnlyDTO mapToReadOnlyDTO(Rentals rental) {
-        RentalsReadOnlyDTO rentalDTO = new RentalsReadOnlyDTO(mapToReadOnlyDTO(rental.getMovie()), mapToReadOnlyDTO(rental.getCustomer()), rental.getPrice());
+        RentalsReadOnlyDTO rentalDTO = new RentalsReadOnlyDTO(mapToReadOnlyDTO(rental.getMovie()), mapToReadOnlyDTO(rental.getCustomer()), rental.getPrice(),rental.getStatus());
         return rentalDTO;
     }
 

@@ -22,11 +22,17 @@ public class CustomerMovieID implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof CustomerMovieID that)) return false;
-
-        if (!customer.equals(that.customer)) return false;
-        return movie.equals(that.movie);
+        if (!(o instanceof CustomerMovieID)) return false;
+        CustomerMovieID that = (CustomerMovieID) o;
+        return customer.equals(that.customer) && movie.equals(that.movie);
     }
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (!(o instanceof CustomerMovieID that)) return false;
+//
+//        if (!customer.equals(that.customer)) return false;
+//        return movie.equals(that.movie);
+//    }
 
     @Override
     public int hashCode() {

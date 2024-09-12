@@ -7,6 +7,7 @@ import com.example.moviesdvdrental.DTOs.actorDTO.ActorInsertDTO;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -17,5 +18,5 @@ public class MoviesInsertDTO{
     public int countCopies;
     public DirectorInsertDTO director;
     public List<CategoryInsertDTO> categories;
-    public List<ActorInsertDTO> actors;
+    public List<ActorInsertDTO> actors = new ArrayList<>();
 }

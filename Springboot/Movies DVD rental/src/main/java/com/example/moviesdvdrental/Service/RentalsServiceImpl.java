@@ -2,17 +2,19 @@ package com.example.moviesdvdrental.Service;
 
 import com.example.moviesdvdrental.DTOs.RatingsDTO.RatingsInsertDTO;
 import com.example.moviesdvdrental.DTOs.RentalDTO.RentalsInsertDTO;
+import com.example.moviesdvdrental.DTOs.RentalDTO.RentalsReadOnlyDTO;
 import com.example.moviesdvdrental.Exceptions.EntityNotFoundException;
+import com.example.moviesdvdrental.RabbitMQ.RabbitMQConfig;
 import com.example.moviesdvdrental.Repositories.CustomerRepository;
 import com.example.moviesdvdrental.Repositories.MoviesRepository;
 import com.example.moviesdvdrental.Repositories.RatingsRepository;
 import com.example.moviesdvdrental.Repositories.RentalsRepository;
-import com.example.moviesdvdrental.model.Customer;
-import com.example.moviesdvdrental.model.Movies;
-import com.example.moviesdvdrental.model.Ratings;
-import com.example.moviesdvdrental.model.Rentals;
+import com.example.moviesdvdrental.mapper.Mapper;
+import com.example.moviesdvdrental.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,8 +28,11 @@ public class RentalsServiceImpl implements IRentalsService{
     private final RentalsRepository rentalsRepository;
     private final MoviesRepository moviesRepository;
     private final CustomerRepository customerRepository;
+    private final RabbitTemplate rabbitTemplate;
+
     @Override
     @Transactional
+//    @Async
     public Rentals AddNewRental( RentalsInsertDTO dto) throws Exception {
         Rentals rental = new Rentals();
         Movies movie;
@@ -39,6 +44,8 @@ public class RentalsServiceImpl implements IRentalsService{
             rental.addCustomer(customer);
             rental.setPrice(dto.getPrice());
             rental = rentalsRepository.save(rental);
+            RentalsReadOnlyDTO rentalToSend = Mapper.mapToReadOnlyDTO(rental);
+            rabbitTemplate.convertAndSend(RabbitMQConfig.RENTAL_EXCHANGE,"rental",rentalToSend);
             log.info("New rental for movie with id"+ dto.getMovieId());
             System.out.println(rental.toString());
         }catch (EntityNotFoundException e){

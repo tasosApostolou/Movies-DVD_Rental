@@ -25,6 +25,9 @@ public class Rentals {
 
     private double price;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     public void addCustomer(Customer customer) {
         this.setCustomer(customer);
         customer.getRentals().add(this);

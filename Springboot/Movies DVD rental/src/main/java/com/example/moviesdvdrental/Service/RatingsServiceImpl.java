@@ -10,6 +10,7 @@ import com.example.moviesdvdrental.model.Movies;
 import com.example.moviesdvdrental.model.Ratings;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -67,7 +67,9 @@ public class User extends AbstractEntity implements UserDetails {
         user.setPassword(password);
         return user;
     }
-
+//    public User(Long id){
+//        this.setIsActive(true);
+//    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
@@ -91,9 +93,14 @@ public class User extends AbstractEntity implements UserDetails {
         return true;
     }
 
-    @Override
+    //    public boolean isEnabled() {
+////        return UserDetails.super.isEnabled();
+//        return true;
+//    }
     public boolean isEnabled() {
-//        return UserDetails.super.isEnabled();
-        return true;
+        return this.getIsActive() == null || this.getIsActive();
     }
+
+
+
 }

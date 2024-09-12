@@ -1,15 +1,12 @@
 package com.example.moviesdvdrental.RestController;
 
-import com.example.moviesdvdrental.DTOs.DirectorDTO.DirectorInsertDTO;
-import com.example.moviesdvdrental.DTOs.DirectorDTO.DirectorReadOnlyDTO;
+
 import com.example.moviesdvdrental.DTOs.MoviesDTO.MoviesInsertDTO;
 import com.example.moviesdvdrental.DTOs.MoviesDTO.MoviesReadOnlyDTO;
-import com.example.moviesdvdrental.DTOs.actorDTO.ActorReadOnlyDTO;
 import com.example.moviesdvdrental.Exceptions.EntityNotFoundException;
 import com.example.moviesdvdrental.Service.IMoviesService;
 import com.example.moviesdvdrental.Validators.MoviesInsertValidator;
 import com.example.moviesdvdrental.mapper.Mapper;
-import com.example.moviesdvdrental.model.Director;
 import com.example.moviesdvdrental.model.Movies;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

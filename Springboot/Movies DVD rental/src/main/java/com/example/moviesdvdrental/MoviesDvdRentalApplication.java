@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
-//@EnableJpaAuditing
-//@EnableAsync
+@EnableJpaAuditing
+@EnableAsync
 public class MoviesDvdRentalApplication {
 
     public static void main(String[] args) {
