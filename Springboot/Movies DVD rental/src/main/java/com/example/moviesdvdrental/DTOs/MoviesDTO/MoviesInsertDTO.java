@@ -5,6 +5,7 @@ import com.example.moviesdvdrental.DTOs.CategoryDTO.CategoryInsertDTO;
 import com.example.moviesdvdrental.DTOs.DirectorDTO.DirectorInsertDTO;
 import com.example.moviesdvdrental.DTOs.actorDTO.ActorInsertDTO;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class MoviesInsertDTO{
     public String title;
     public int year;

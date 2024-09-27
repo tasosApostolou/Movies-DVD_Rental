@@ -93,7 +93,7 @@ public class User extends AbstractEntity implements UserDetails {
         return true;
     }
 
-    //    public boolean isEnabled() {
+//        public boolean isEnabled() {
 ////        return UserDetails.super.isEnabled();
 //        return true;
 //    }

@@ -10,6 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class RentalsInsertDTO {
     private Long movieId;
     private Long customerId;

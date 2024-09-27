@@ -13,6 +13,7 @@ import com.example.moviesdvdrental.mapper.Mapper;
 import com.example.moviesdvdrental.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+//import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,6 @@ public class RentalsServiceImpl implements IRentalsService{
 
     @Override
     @Transactional
-//    @Async
     public Rentals AddNewRental( RentalsInsertDTO dto) throws Exception {
         Rentals rental = new Rentals();
         Movies movie;

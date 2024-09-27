@@ -24,6 +24,7 @@ import java.io.IOException;
 @Slf4j
 @RequiredArgsConstructor
 public class RentalListenerService implements IRentalsListener {
+//
 
     private final RentalsRepository rentalsRepository;
     private final CustomerRepository customerRepository;
@@ -31,7 +32,6 @@ public class RentalListenerService implements IRentalsListener {
     private final RabbitTemplate rabbitTemplate;
 
     @RabbitListener(queues = RabbitMQConfig.RENTAL_QUEUE) // Consumes messages from the rentalQueue
-//    @Async
     @Transactional
     public void ValidationRentalOrder(RentalsReadOnlyDTO rentalMessage) throws InterruptedException, IOException {
         Rentals rentalBooked;
@@ -49,7 +49,7 @@ public class RentalListenerService implements IRentalsListener {
 //                log.info("invalid price");
                 throw new Exception("low price");
             }
-            Rentals updatedRental = rentalsRepository.save(rentalBooked);
+            Rentals updatedRental = rentalsRepository.saveAndFlush(rentalBooked);
             RentalsReadOnlyDTO rentalToSend = Mapper.mapToReadOnlyDTO(updatedRental);
             rabbitTemplate.convertAndSend(RabbitMQConfig.RENTAL_EXCHANGE,"stocks",rentalToSend);
 //            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
@@ -59,7 +59,6 @@ public class RentalListenerService implements IRentalsListener {
     }
 
     @RabbitListener(queues = RabbitMQConfig.STOCKS_QUEUE) // Consumes messages from the inventoryQueue
-    @Async
     @Transactional
     public void checkAvailability(RentalsReadOnlyDTO rentalMessage) throws InterruptedException, IOException {
         Rentals rentalBooked;
@@ -76,7 +75,7 @@ public class RentalListenerService implements IRentalsListener {
                 rentalBooked.setStatus(Status.APPROVED);
                 rentalBooked.getMovie().setCountCopies(movie.getCountCopies() - 1); // reduce a stock from availability
             }
-            Rentals rental = rentalsRepository.save(rentalBooked);
+            Rentals rental = rentalsRepository.saveAndFlush(rentalBooked);
             if (rental.getMovie().getCountCopies()==0){
                 rental.getMovie().setIsActive(false);
             }

@@ -1,17 +1,21 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.3.2'
-    id 'io.spring.dependency-management' version '1.1.6'
+//    id 'org.springframework.boot' version '3.3.2'
+//    id 'io.spring.dependency-management' version '1.1.6'
+//    id 'com.google.cloud.tools.jib' version '3.3.2'
+
+    id 'org.springframework.boot' version '3.2.0'
+    id 'io.spring.dependency-management' version '1.1.4'
 }
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
-//    sourceCompatibility = '17'
+//    toolchain {
+//        languageVersion = JavaLanguageVersion.of(17)
+//    }
+    sourceCompatibility = '17'
 
 }
 bootJar {
@@ -29,6 +33,7 @@ repositories {
 }
 
 dependencies {
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     compileOnly 'org.projectlombok:lombok'
@@ -49,10 +54,19 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     testImplementation 'org.springframework.amqp:spring-rabbit-test'
 
-
-
 }
-
+//jib {
+//    from {
+//        image = 'openjdk:17-jdk-alpine'
+//    }
+//    to {
+//        image = 'your-docker-image-name:v2'
+//    }
+//    container {
+//        ports = ['8080']
+//    }
+//
+//}
 tasks.named('test') {
     useJUnitPlatform()
 }

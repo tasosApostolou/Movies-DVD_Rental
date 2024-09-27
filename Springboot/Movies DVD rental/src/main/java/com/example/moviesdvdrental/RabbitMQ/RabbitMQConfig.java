@@ -1,9 +1,11 @@
 package com.example.moviesdvdrental.RabbitMQ;
 
 import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.SimpleMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -54,7 +56,10 @@ public class RabbitMQConfig {
     public Jackson2JsonMessageConverter messageConverter() {
         return new Jackson2JsonMessageConverter();
     }
-
+//    @Bean
+//    public SimpleMessageConverter simpleMessageConverter(){
+//            return new SimpleMessageConverter();
+//}
     @Bean
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
@@ -62,13 +67,13 @@ public class RabbitMQConfig {
         return rabbitTemplate;
     }
 
-    //    @Bean
-//    ConnectionFactory connectionFactory(){
-//        CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory("localhost");
-//        cachingConnectionFactory.setUsername("guest");
-//        cachingConnectionFactory.setPassword("guest");
-//        return cachingConnectionFactory;
-//    }
+        @Bean
+    ConnectionFactory connectionFactory(){
+        CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory("localhost");
+        cachingConnectionFactory.setUsername("guest");
+        cachingConnectionFactory.setPassword("guest");
+        return cachingConnectionFactory;
+    }
 //    @Bean
 //    MessageListenerContainer messageListenerContainer(){
 //        SimpleMessageListenerContainer simpleMessageListenerContainer = new SimpleMessageListenerContainer();
