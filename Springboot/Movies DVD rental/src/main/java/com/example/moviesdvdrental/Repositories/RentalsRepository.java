@@ -20,7 +20,7 @@ public interface RentalsRepository extends JpaRepository<Rentals, CustomerMovieI
 //    <S extends Rentals> S save(S entity);
 
     Optional<Rentals> findByCustomerAndMovie(Customer customer, Movies movie);
-
+Optional<Rentals> findRentalsByCustomer_IdAndMovie_Id(Long customerId,Long movieId);
     List<Rentals> findRentalsByMovie(Movies movies);
     List<Rentals> findRentalsByCustomer(Customer customer);
     List<Rentals> findByMovie_Title(String title);

@@ -1,13 +1,11 @@
 package com.example.moviesdvdrental.Service;
 
-import com.example.moviesdvdrental.DTOs.RatingsDTO.RatingsInsertDTO;
 import com.example.moviesdvdrental.DTOs.RentalDTO.RentalsInsertDTO;
 import com.example.moviesdvdrental.DTOs.RentalDTO.RentalsReadOnlyDTO;
 import com.example.moviesdvdrental.Exceptions.EntityNotFoundException;
 import com.example.moviesdvdrental.RabbitMQ.RabbitMQConfig;
 import com.example.moviesdvdrental.Repositories.CustomerRepository;
 import com.example.moviesdvdrental.Repositories.MoviesRepository;
-import com.example.moviesdvdrental.Repositories.RatingsRepository;
 import com.example.moviesdvdrental.Repositories.RentalsRepository;
 import com.example.moviesdvdrental.mapper.Mapper;
 import com.example.moviesdvdrental.model.*;
@@ -43,7 +41,7 @@ public class RentalsServiceImpl implements IRentalsService{
             rental.addMovie(movie);
             rental.addCustomer(customer);
             rental.setPrice(dto.getPrice());
-            rental = rentalsRepository.save(rental);
+            rental = rentalsRepository.saveAndFlush(rental);
             RentalsReadOnlyDTO rentalToSend = Mapper.mapToReadOnlyDTO(rental);
             rabbitTemplate.convertAndSend(RabbitMQConfig.RENTAL_EXCHANGE,"rental",rentalToSend);
             log.info("New rental for movie with id"+ dto.getMovieId());
