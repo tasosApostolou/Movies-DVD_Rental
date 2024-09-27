@@ -37,7 +37,6 @@ public class RentalListenerService implements IRentalsListener {
         Rentals rentalBooked;
         Customer customer;
         Movies movie;
-        Thread.sleep(2000);
         try {
             customer = customerRepository.findById(rentalMessage.getCustomer().getId()).orElseThrow(() -> new EntityNotFoundException(Customer.class,rentalMessage.getCustomer().getId())); // custom exception EntityNotFoundException(Class<?> entityClass, Long id)
             movie = moviesRepository.findById(rentalMessage.getMovie().getId()).orElseThrow(() -> new EntityNotFoundException(Movies.class,rentalMessage.getMovie().getId()));
@@ -64,7 +63,6 @@ public class RentalListenerService implements IRentalsListener {
         Rentals rentalBooked;
         Movies movie;
         Customer customer;
-//        Thread.sleep(2000);
         try {
 //            rentalBooked = rentalsRepository.findById(new CustomerMovieID(rentalMessage.getCustomer().getId(), rentalMessage.getMovie().getId())).orElseThrow(() -> new EntityNotFoundException(Rentals.class,rentalMessage.getMovie().getId()));
             customer = customerRepository.findById(rentalMessage.getCustomer().getId()).orElseThrow(() -> new EntityNotFoundException(Customer.class,rentalMessage.getCustomer().getId())); // custom exception EntityNotFoundException(Class<?> entityClass, Long id)
