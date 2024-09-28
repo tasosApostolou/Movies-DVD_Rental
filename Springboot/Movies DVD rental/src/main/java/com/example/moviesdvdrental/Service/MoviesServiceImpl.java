@@ -44,6 +44,7 @@ public class MoviesServiceImpl implements IMoviesService{
             });
             movie = Mapper.mapToMovie(dto); // convert dto to model class
             movie.setDirector(director);
+            movie.setIsActive(dto.getCountCopies() > 0);
             movie = moviesRepository.save(movie);
             addCategoriesToMovie(movie,dto.getCategories());
             addActorsToMovie(movie,dto.getActors());

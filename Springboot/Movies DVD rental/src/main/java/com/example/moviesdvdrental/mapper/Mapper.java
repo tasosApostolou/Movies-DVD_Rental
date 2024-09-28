@@ -13,6 +13,7 @@ import com.example.moviesdvdrental.DTOs.LoginDTO.LoginResponseTokenDTO;
 import com.example.moviesdvdrental.DTOs.MoviesDTO.MoviesInsertDTO;
 import com.example.moviesdvdrental.DTOs.MoviesDTO.MoviesReadOnlyDTO;
 import com.example.moviesdvdrental.DTOs.RatingsDTO.RatingsReadOnlyDTO;
+import com.example.moviesdvdrental.DTOs.RentalDTO.RentalMessageDTO;
 import com.example.moviesdvdrental.DTOs.RentalDTO.RentalsReadOnlyDTO;
 import com.example.moviesdvdrental.DTOs.UserDTO.UserInsertDTO;
 import com.example.moviesdvdrental.DTOs.UserDTO.UserReadOnlyDTO;
@@ -83,6 +84,7 @@ public class Mapper {
 
     public static MoviesReadOnlyDTO mapToReadOnlyDTO(Movies movie) {
         MoviesReadOnlyDTO movieDTO = new MoviesReadOnlyDTO(movie.getId(), movie.getTitle(), movie.getYear(), movie.getCountCopies(), mapToReadOnlyDTO(movie.getDirector()) );
+
 //        movieDTO.setActors(movie.getAllActors().stream().map(Mapper::mapToReadOnlyDTO).collect(Collectors.toList()));
         movie.getAllActors().forEach(actor -> movieDTO.getActors().add(mapToReadOnlyDTO(actor)));
         movie.getAllCategories().forEach(category -> movieDTO.getCategories().add(mapToReadOnlyDTO(category)));
@@ -98,6 +100,11 @@ public class Mapper {
         RentalsReadOnlyDTO rentalDTO = new RentalsReadOnlyDTO(mapToReadOnlyDTO(rental.getMovie()), mapToReadOnlyDTO(rental.getCustomer()), rental.getPrice(),rental.getStatus());
         return rentalDTO;
     }
+
+//    public static RentalMessageDTO mapToRentalMessageDTO(Rentals rental) {
+//        RentalMessageDTO rentalDTO = new RentalMessageDTO(mapToReadOnlyDTO(rental.getMovie()), mapToReadOnlyDTO(rental.getCustomer()), rental.getPrice(),rental.getStatus());
+//        return rentalDTO;
+//    }
 
     public static CustomerReadOnlyDTO mapToReadOnlyDTO(Customer customer) {
         CustomerReadOnlyDTO readOnlyDTO = new CustomerReadOnlyDTO(customer.getId(), customer.getFirstname(), customer.getLastname(), customer.getUser().getId());

@@ -41,7 +41,14 @@ public class Movies extends AbstractEntity {
     )
     private Set<Actor> actors = new HashSet<>();
 
-    @ManyToMany(mappedBy = "movies")
+//    @ManyToMany(mappedBy = "movies")
+//    private Set<Category> categories = new HashSet<>();
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(
+            name = "movies_categories",
+            joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id",nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id",nullable = false)
+    )
     private Set<Category> categories = new HashSet<>();
     public Movies(Long id, String title, int year) {
         this.setId(id);
@@ -77,7 +84,8 @@ public class Movies extends AbstractEntity {
     public Set<Rentals> getAllRentals(){return Collections.unmodifiableSet(rentals);}
 
     public Set<Ratings> getAllRatings(){return Collections.unmodifiableSet(ratings);}
-    public  List<Category> getAllCategories(){return Collections.unmodifiableSet(categories).stream().toList();}
+//    public  List<Category> getAllCategories(){return Collections.unmodifiableSet(categories).stream().toList();}
+public  Set<Category> getAllCategories(){return Collections.unmodifiableSet(categories);}
 
     @Override
     public String toString() {

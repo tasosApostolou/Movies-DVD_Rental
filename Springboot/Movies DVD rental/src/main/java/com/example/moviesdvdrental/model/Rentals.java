@@ -45,5 +45,18 @@ public class Rentals {
                 ", movie=" + movie.toString() +
                 ", price=" + price +
                 '}';
+
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Rentals rentals)) return false;
+
+        if (Double.compare(getPrice(), rentals.getPrice()) != 0) return false;
+        if (!getCustomer().equals(rentals.getCustomer())) return false;
+        if (!getMovie().equals(rentals.getMovie())) return false;
+        return getStatus() == rentals.getStatus();
+    }
+
 }

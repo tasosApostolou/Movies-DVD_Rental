@@ -20,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -28,7 +30,6 @@ public class RentalsServiceImpl implements IRentalsService{
     private final MoviesRepository moviesRepository;
     private final CustomerRepository customerRepository;
     private final RabbitTemplate rabbitTemplate;
-
     @Override
     @Transactional
     public Rentals AddNewRental( RentalsInsertDTO dto) throws Exception {
@@ -42,7 +43,9 @@ public class RentalsServiceImpl implements IRentalsService{
             rental.addCustomer(customer);
             rental.setPrice(dto.getPrice());
             rental = rentalsRepository.saveAndFlush(rental);
-            RentalsReadOnlyDTO rentalToSend = Mapper.mapToReadOnlyDTO(rental);
+            RentalsReadOnlyDTO rentalToSend;
+            rentalToSend = Mapper.mapToReadOnlyDTO(rental);
+
             rabbitTemplate.convertAndSend(RabbitMQConfig.RENTAL_EXCHANGE,"rental",rentalToSend);
             log.info("New rental for movie with id"+ dto.getMovieId());
             System.out.println(rental.toString());
@@ -83,4 +86,5 @@ public class RentalsServiceImpl implements IRentalsService{
         }
         return customerRentals;
     }
+
 }

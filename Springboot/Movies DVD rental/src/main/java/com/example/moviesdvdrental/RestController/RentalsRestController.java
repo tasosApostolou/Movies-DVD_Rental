@@ -40,6 +40,7 @@ public class RentalsRestController {
     public ResponseEntity<RentalsReadOnlyDTO> addRental(@RequestBody RentalsInsertDTO insertDTO){
         Rentals rental;
         try{
+
             rental = rentalsService.AddNewRental(insertDTO);
             RentalsReadOnlyDTO readOnlyDTO = Mapper.mapToReadOnlyDTO(rental);
             URI location = ServletUriComponentsBuilder.fromCurrentRequest()
